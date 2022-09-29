@@ -2,10 +2,13 @@
 
 # Starknet provide persistent and mutable storage
 
-# I AM NOT DONE
-
 # TODO
 # Create a storage named `bool` storing a single felt
+@storage_var
+
+func bool() -> (res: felt):
+
+end
 
 # TESTS #
 

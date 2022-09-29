@@ -26,8 +26,16 @@ end
 # Examples:
 #   - the squared magnitude of a 2D vector (x,y) is x * x + y * y.
 #   - the squared magnitude of a 3D vector (x,y,z) is x * x + y * y + z * z.
-func squared_magnitude(struct_value : felt*, struct_size : felt) -> (res : felt):
+
+# changed the function signature to make tail call recursion style
+func squared_magnitude(struct_value : felt*, struct_size : felt, result: felt) -> (res : felt):
     # FILL ME
+    if struct_size == 0:
+        return (result)
+    end
+    let square:felt = [struct_value] * [struct_value]
+    let res: felt = square + result
+    return squared_magnitude(struct_value+1, struct_size-1, res)
 end
 
 # TESTS #
@@ -35,11 +43,11 @@ end
 @external
 func test_squared_magnitude{range_check_ptr : felt}():
     tempvar vector2D : Vector2D* = new Vector2D(x=4, y=7)
-    let (res) = squared_magnitude(vector2D, Vector2D.SIZE)
+    let (res) = squared_magnitude(vector2D, Vector2D.SIZE, 0)
     assert res = 4 * 4 + 7 * 7
 
     tempvar vector3D : Vector3D* = new Vector3D(x=8, y=2, z=1)
-    let (res) = squared_magnitude(vector3D, Vector3D.SIZE)
+    let (res) = squared_magnitude(vector3D, Vector3D.SIZE, 0)
     assert res = 8 * 8 + 2 * 2 + 1 * 1
 
     return ()

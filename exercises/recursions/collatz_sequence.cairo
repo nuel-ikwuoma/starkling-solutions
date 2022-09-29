@@ -10,13 +10,26 @@ from starkware.cairo.common.cairo_builtins import BitwiseBuiltin
 # If the number is one, stop the computation
 # https://en.wikipedia.org/wiki/Collatz_conjecture
 
-# I AM NOT DONE
-
 # TODO: write a recursive implementation of Collatz sequence that returns the nth collatz number from the seed
 # HELP: number % 2 == 0 => bitwise_and(number, 1) == 0
 
 func collatz{bitwise_ptr : BitwiseBuiltin*}(seed : felt, step : felt) -> (result : felt):
-    return (result=number)
+    if step == 0:
+        return (seed)
+    end
+
+    if seed == 1:
+        return (1)
+    end
+
+    let (even) = bitwise_and(seed, 1)
+    if even == 0:
+        let number:felt = collatz(seed/2, step-1)
+    else:
+        let number:felt = collatz(seed * 3 + 1, step-1)
+    end
+
+    return (number)
 end
 
 # Do not change the test

@@ -2,8 +2,6 @@
 
 # Arrays can also contain structs
 
-# I AM NOT DONE
-
 struct Point:
     member x : felt
     member y : felt
@@ -12,6 +10,19 @@ end
 
 func contains_origin{range_check_ptr : felt}(len_points : felt, points : Point*) -> (bool : felt):
     # FILL ME
+    if len_points == 0:
+        return (0)
+    end
+
+    let x = points[0].x
+    let y = points[0].y
+    let z = points[0].z
+    
+    if x + y + z == 0:
+        return (1)
+    end
+
+    return contains_origin(len_points-1, points+Point.SIZE)
 end
 
 # TESTS #
